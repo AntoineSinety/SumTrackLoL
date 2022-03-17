@@ -2,6 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import './assets/css/style.css'
 import Switch from "react-switch";
+import cosmicInsight from './assets/images/Cosmic_Insight_rune.webp';
+import noCosmicInsight from './assets/images/no_cosmic.webp';
+import botteLucidite from './assets/images/Bottes_de_Lucidi.webp';
+import noBotteLucidite from './assets/images/no_Bottes_de_Lucidi.png';
+
 
 import React, { useState } from "react";
 import { getInfoSummoner, getCurrentGame } from './api/riot';
@@ -12,7 +17,7 @@ function App() {
 
   const [participants, setParticipants] = useState(null);
 
-  const [bottes, setBottes] = useState(false);
+  const [bottes, setBottes] = useState([false, false, false, false, false]);
   
   const handleSubmit = async (evt) => {
       evt.preventDefault();
@@ -23,7 +28,12 @@ function App() {
       const currentGame = await getCurrentGame(infoSumm.id)
       console.log('current game', currentGame)
 
-      setParticipants(currentGame.participants);
+      const CurrentPlayer = currentGame.participants.find( (e) => e.summonerName === name)
+      const saveArrayPlayers =  currentGame.participants.filter(player => player.teamId === 200)
+
+      setParticipants(saveArrayPlayers);
+
+
 
 
   }
@@ -44,16 +54,17 @@ function App() {
           <div className="container-summoner">
 
             { participants &&
-              participants.map((player) => 
+              participants.map((player, key) => 
               <div className={'wrapper-summoner ' + (player.teamId === 100 ? "blue" : "red")}>
                   <p>{player.summonerName}</p>
-                  <p>Runes Cosmic insight : <br/>
+                  <p>
                   {
-                    player.perks.perkIds.includes(8347) ? "oui" : "non"
+                    player.perks.perkIds.includes(8347) ? <img src={cosmicInsight} alt="Cosmic Insight"/> : <img src={noCosmicInsight} alt="Pas de Cosmic Insight"/>
                   }
                   </p>
-                <div>Bottes de lucidité:<br/>
-                <Switch onChange={(bottes) => setBottes(bottes)} checked={bottes} />
+                <div onClick={() => setBottes(!bottes)}>
+                    {bottes ? <img src={botteLucidite} alt="Cosmic Insight"/> : <img src={noBotteLucidite} alt="Pas de Cosmic Insight"/>}
+                {/* <Switch onChange={(bottes) => setBottes(bottes)} checked={bottes} /> */}
                 </div>
               </div>
               )
