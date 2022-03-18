@@ -1,23 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
 import './assets/css/style.css'
-import Switch from "react-switch";
-import cosmicInsight from './assets/images/Cosmic_Insight_rune.webp';
-import noCosmicInsight from './assets/images/no_cosmic.webp';
-import botteLucidite from './assets/images/Bottes_de_Lucidi.webp';
-import noBotteLucidite from './assets/images/no_Bottes_de_Lucidi.png';
 
 
-import React, { useState } from "react";
+
+
+import React, { useEffect, useState } from "react";
 import { getInfoSummoner, getCurrentGame } from './api/riot';
+
+import Player from './components/Player';
 
 function App() {
 
   const [name, setName] = useState("");
 
+  const [game, setGame] = useState(null);
   const [participants, setParticipants] = useState(null);
 
-  const [bottes, setBottes] = useState([false, false, false, false, false]);
+  const [bottes, setBottes] = useState();
+
+  const [timerGame , setTimerGame] = useState(null);
+
+  useEffect( () =>{
+
+    // setInterval(() => {
+    //   if (game){
+    //     calcTimeGame()
+    //   }
+    // }, 1000);
+
+  });
   
   const handleSubmit = async (evt) => {
       evt.preventDefault();
@@ -32,16 +44,29 @@ function App() {
       const saveArrayPlayers =  currentGame.participants.filter(player => player.teamId === 200)
 
       setParticipants(saveArrayPlayers);
-
-
-
-
+      setGame(currentGame)
   }
 
+  const calcTimeGame = () =>{
+      const timerStartGame = game.gameStartTime;
+
+      var now = new Date().getTime();
+      var distance =  now -timerStartGame;
+      
+      // Time calculations for days, hours, minutes and seconds
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTimerGame(minutes + "m " + seconds + "s ");
+  }
+
+  const activeBotte = (bottes) =>{
+    setBottes(bottes)
+  }
 
   return (
     <div className="App">
       <header className="App-header">
+        <p>Game start : { timerGame} </p>
         <form onSubmit={handleSubmit}>
           <label>
             Nom d'invocateur :
@@ -54,19 +79,8 @@ function App() {
           <div className="container-summoner">
 
             { participants &&
-              participants.map((player, key) => 
-              <div className={'wrapper-summoner ' + (player.teamId === 100 ? "blue" : "red")}>
-                  <p>{player.summonerName}</p>
-                  <p>
-                  {
-                    player.perks.perkIds.includes(8347) ? <img src={cosmicInsight} alt="Cosmic Insight"/> : <img src={noCosmicInsight} alt="Pas de Cosmic Insight"/>
-                  }
-                  </p>
-                <div onClick={() => setBottes(!bottes)}>
-                    {bottes ? <img src={botteLucidite} alt="Cosmic Insight"/> : <img src={noBotteLucidite} alt="Pas de Cosmic Insight"/>}
-                {/* <Switch onChange={(bottes) => setBottes(bottes)} checked={bottes} /> */}
-                </div>
-              </div>
+              participants.map((player, index) => 
+              <Player player={player} key={index} />
               )
             }
           </div>

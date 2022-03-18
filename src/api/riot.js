@@ -21,6 +21,16 @@ export const getCurrentGame = async (name) =>{
     })
 }
 
+export const getJsonSummonerPSells = async () =>{
+	var getPuuidEUWAcc = "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/summoner-spells.json";
+
+	return fetch(getPuuidEUWAcc)
+	.then(response => response.json())
+	.then(data => {
+        return data
+    })
+}
+
 // export const getAllRunes = async (name) =>{
 // 	var getPuuidEUWAcc = 'http://ddragon.leagueoflegends.com/cdn/12.5.1/data/en_US/runesReforged.json';
 
