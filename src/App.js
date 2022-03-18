@@ -23,11 +23,11 @@ function App() {
 
   useEffect( () =>{
 
-    // setInterval(() => {
-    //   if (game){
-    //     calcTimeGame()
-    //   }
-    // }, 1000);
+    setInterval(() => {
+      if (game){
+        calcTimeGame()
+      }
+    }, 1000);
 
   });
   
@@ -80,7 +80,7 @@ function App() {
 
             { participants &&
               participants.map((player, index) => 
-              <Player player={player} key={index} />
+              <Player player={player} key={index} timerGame={timerGame} />
               )
             }
           </div>

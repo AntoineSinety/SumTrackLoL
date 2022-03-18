@@ -50,8 +50,8 @@ function SummonerSpell(props) {
 
   return (
         <div className='wrapper-spell'>
-            {spell1 && <Spell props={props} spell={spell1} />}
-            {spell2 && <Spell props={props} spell={spell2} />}
+            {spell1 && <Spell {...props} spell={spell1} />}
+            {spell2 && <Spell {...props} spell={spell2} />}
         </div>
   );
 }
