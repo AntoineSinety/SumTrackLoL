@@ -21,7 +21,7 @@ function Spell(props) {
         fetchData();
 
 
-      }, [props]); // Or [] if effect doesn't need props or state
+      }, [props.botte]); // Or [] if effect doesn't need props or state
 
 
     const getTimerSpell = (time) =>{
@@ -38,6 +38,7 @@ function Spell(props) {
     }
 
     const launchTimer = (time) =>{
+        
         let timeFormat;
         setInterval(() => {
             if(time <= 0){
@@ -45,18 +46,22 @@ function Spell(props) {
                 clearTimeout();
             }else{
                 time-=1;
-                timeFormat = Math.floor(time / 60) + ':'+ Math.round((time % 60 ? time % 60 : '00'));
+                let hours = Math.floor(time / 60);
+                let minutes = Math.round(time % 60 ? time % 60 : '00');
+                timeFormat = hours + ':'+ (minutes < 10 ? "0"+ minutes : minutes);
                 setTimerSpell([time, timeFormat])
             }
             
         }, 1000);
 
-        
-        const CDSplit = timeFormat.split(':');
+        let hours = Math.floor(time / 60);
+        let minutes = Math.round(time % 60 ? time % 60 : '00');
+        console.log('min', minutes);
+        const tempTime = hours + ':'+ (minutes < 10 ? "0"+ minutes : minutes);
+        const CDSplit = tempTime.split(':');
         const gameSplit = props.timerGame.split(':');
 
-        const CDBack = parseInt(gameSplit[0]) + parseInt(CDSplit[0]) +':' + parseInt(gameSplit[1]) + parseInt(CDSplit[1])
-        console.log('here cd back : ', CDBack);
+        const CDBack = (parseInt(gameSplit[0]) + parseInt(CDSplit[0])) +':' + (parseInt(gameSplit[1]) + parseInt(CDSplit[1]))
         setCDBackTime(CDBack)
     }
 
@@ -65,12 +70,13 @@ function Spell(props) {
     }
 
   return (
-    <p className='one-spell'>
-        <img src={props.spell[0] && "https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/"+props.spell[0].iconPath.substring(props.spell[0].iconPath.lastIndexOf('/') + 1).toLowerCase()}  alt={props.spell[0].name}/>
-        <span className='timer' onClick={() => launchTimer(timerSpell[0])}>{timerSpell[1]}</span>
-        <br/>
+    <div>
+        <p className='one-spell'>
+            <img src={props.spell[0] && "https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/"+props.spell[0].iconPath.substring(props.spell[0].iconPath.lastIndexOf('/') + 1).toLowerCase()}  alt={props.spell[0].name}/>
+            <span className='timer' onClick={() => launchTimer(timerSpell[0])}><span>{timerSpell[1]}</span></span>
+        </p>
         <span>{CDBackTime}</span>
-    </p>
+    </div>
         
   );
 }

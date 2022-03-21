@@ -50,13 +50,15 @@ function App() {
   const calcTimeGame = () =>{
       const timerStartGame = game.gameStartTime;
 
-      var now = new Date().getTime();
-      var distance =  now -timerStartGame;
+      let now = new Date().getTime();
+      let distance =  now -timerStartGame;
       
       // Time calculations for days, hours, minutes and seconds
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      setTimerGame(minutes + "m " + seconds + "s ");
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      minutes = minutes < 10 ? "0"+ minutes : minutes;
+      seconds = seconds < 10 ? "0"+ seconds : seconds;
+      setTimerGame(minutes + ":" + seconds);
   }
 
   const activeBotte = (bottes) =>{
