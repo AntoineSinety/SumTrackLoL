@@ -25,13 +25,13 @@ function App() {
 
   useEffect( () =>{
 
-    setInterval(() => {
-      if (game){
+    if (game){
+      setInterval(() => {
         calcTimeGame()
-      }
-    }, 1000);
+      }, 1000);
+    }
 
-  }, [timerGame]);
+  }, [game]);
   
   const handleSubmit = async (evt) => {
       evt.preventDefault();
@@ -62,7 +62,6 @@ function App() {
       minutes = minutes < 10 ? "0"+ minutes : minutes;
       seconds = seconds < 10 ? "0"+ seconds : seconds;
       setTimerGame(minutes + ":" + seconds);
-      console.log('min', minutes + ":" + seconds);
   }
 
   const activeBotte = (bottes) =>{
@@ -84,13 +83,9 @@ function App() {
           <h2>Liste des joueurs :</h2>
           <div className="container-summoner">
             { participants &&
-              <>
-                {/* <Draggable timerGame={timerGame}> */}
-                { participants.map((player, index) => 
+                participants.map((player, index) => 
                   <Player player={player} key={index} timerGame={timerGame} />
-                )}
-                {/* </Draggable> */}
-              </>
+                )
             }
           </div>
          

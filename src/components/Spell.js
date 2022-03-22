@@ -1,6 +1,6 @@
 import '../assets/css/style.css'
 import React, { useEffect, useState } from "react";
-import { getJsonSummonerPSells } from '../api/riot';
+import { getChampName, getJsonSummonerPSells } from '../api/riot';
 
 function Spell(props) {
 
@@ -9,6 +9,7 @@ function Spell(props) {
 
     const [CDBackTime, setCDBackTime] = useState("UP");
 
+    const [CopyText, setCopyText] =useState('');
 
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function Spell(props) {
         return [time, hours + ':'+ minutes];
     }
 
-    const launchTimer = (time) =>{
+    const launchTimer = async(time, name) =>{
         
         let timeFormat;
         let decompteTimer = setInterval(() => {
@@ -76,6 +77,11 @@ function Spell(props) {
 
         const CDBack = (parseInt(gameSplit[0]) + parseInt(CDSplit[0])) +':' + minuteTotal
         setCDBackTime(CDBack)
+
+        const nameChamp = getChampName(props.player.championId).then((res) => {
+            setCopyText(res  + ' ' +  name + ": " + CDBack + ' / ')
+        });
+
     }
 
 
@@ -83,9 +89,10 @@ function Spell(props) {
     <div>
         <p className={'one-spell ' + (CDBackTime === 'UP' ? "up" : "cd")}>
             <img src={props.spell[0] && "https://raw.communitydragon.org/pbe/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/"+props.spell[0].iconPath.substring(props.spell[0].iconPath.lastIndexOf('/') + 1).toLowerCase()}  alt={props.spell[0].name}/>
-            <span className='timer' onClick={() => launchTimer(timerSpell[0])}><span>{timerSpell[1]}</span></span>
+            <span className='timer' onClick={() => launchTimer(timerSpell[0], props.spell[0].name)}><span>{timerSpell[1]}</span></span>
         </p>
         <span className={'cdback ' + (CDBackTime === 'UP' ? "up" : "cd")}>{CDBackTime}</span>
+        {/* <p onClick={() => navigator.clipboard.writeText("LoL")}>{CopyText}</p> */}
     </div>
         
   );
