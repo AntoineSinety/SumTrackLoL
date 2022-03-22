@@ -6,6 +6,7 @@ import SummonerSpell from './summoner';
 
 import React, { useCallback, useState } from "react";
 
+
 function Player(props) {
 
 
@@ -18,6 +19,7 @@ function Player(props) {
   return (
     <div className={'wrapper-summoner ' + (props.player.teamId === 100 ? "blue" : "red")} key={props.index}>
         <p>{props.player.summonerName}</p>
+        <img src={props.player.championId && "https://cdn.communitydragon.org/latest/champion/"+props.player.championId+"/square"}  alt={props.player.summonerName}/>
         <SummonerSpell spell1={props.player.spell1Id} spell2={props.player.spell2Id} rune={props.player.perks.perkIds.includes(8347) ? true : false} botte={bottes} timerGame={props.timerGame} />
         <p>
         {

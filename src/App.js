@@ -3,6 +3,8 @@ import './App.css';
 import './assets/css/style.css'
 
 
+import { Draggable } from "react-drag-reorder";
+
 
 
 import React, { useEffect, useState } from "react";
@@ -29,7 +31,7 @@ function App() {
       }
     }, 1000);
 
-  });
+  }, [timerGame]);
   
   const handleSubmit = async (evt) => {
       evt.preventDefault();
@@ -38,6 +40,7 @@ function App() {
 
       console.log('inf', infoSumm);
       const currentGame = await getCurrentGame(infoSumm.id)
+      
       console.log('current game', currentGame)
 
       const CurrentPlayer = currentGame.participants.find( (e) => e.summonerName === name)
@@ -59,6 +62,7 @@ function App() {
       minutes = minutes < 10 ? "0"+ minutes : minutes;
       seconds = seconds < 10 ? "0"+ seconds : seconds;
       setTimerGame(minutes + ":" + seconds);
+      console.log('min', minutes + ":" + seconds);
   }
 
   const activeBotte = (bottes) =>{
@@ -79,14 +83,20 @@ function App() {
         <div>
           <h2>Liste des joueurs :</h2>
           <div className="container-summoner">
-
             { participants &&
-              participants.map((player, index) => 
-              <Player player={player} key={index} timerGame={timerGame} />
-              )
+              <>
+                {/* <Draggable timerGame={timerGame}> */}
+                { participants.map((player, index) => 
+                  <Player player={player} key={index} timerGame={timerGame} />
+                )}
+                {/* </Draggable> */}
+              </>
             }
           </div>
          
+          <div>
+            Summoner recap : 
+          </div>
         </div>
       </header>
     </div>
