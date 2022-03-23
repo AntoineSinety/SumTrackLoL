@@ -2,8 +2,14 @@ import '../assets/css/style.css'
 import React, { useEffect, useState } from "react";
 import { getChampName, getJsonSummonerPSells } from '../api/riot';
 
+
+import { useSelector, useDispatch } from 'react-redux'
+import { changeRecap } from '../redux/R-recapSpell'
+
 function Spell(props) {
 
+    const timeGame = useSelector((state) => state.timeGame.value)
+    const dispatch = useDispatch()
 
     const [timerSpell, setTimerSpell] = useState(0);
 
@@ -69,17 +75,18 @@ function Spell(props) {
 
         const tempTime = hours + ':'+ minutes;
         const CDSplit = tempTime.split(':');
-        const gameSplit = props.timerGame.split(':');
 
-        let  minuteTotal =  parseInt(gameSplit[1]) + parseInt(CDSplit[1]);
+        let  minuteTotal =  parseInt(timeGame.seconds) + parseInt(CDSplit[1]);
         minuteTotal = Math.round(minuteTotal % 60 ? minuteTotal % 60 : '00');
         minuteTotal = minuteTotal < 10 ? "0"+ minuteTotal : minuteTotal;
 
-        const CDBack = (parseInt(gameSplit[0]) + parseInt(CDSplit[0])) +':' + minuteTotal
+        let realMin = parseInt(timeGame.minutes) + parseInt(CDSplit[0]) + (parseInt(timeGame.seconds) + parseInt(CDSplit[1])  > 60  ? 1 : 0)
+
+        const CDBack = realMin +':' + minuteTotal
         setCDBackTime(CDBack)
 
         const nameChamp = getChampName(props.player.championId).then((res) => {
-            setCopyText(res  + ' ' +  name + ": " + CDBack + ' / ')
+            dispatch(changeRecap({name: res, spell: name, cd: CDBack}))
         });
 
     }

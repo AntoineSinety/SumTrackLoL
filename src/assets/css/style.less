@@ -6,15 +6,19 @@
     flex-wrap: wrap;
     // width: 90%;
     margin: auto;
-    gap: 30px;
+    gap: 50px;
     .grabbable{
         border: 2px solid #2e76b3; 
         box-shadow: 0 0 3px 1px #2e76b3;
     }
     .wrapper-summoner{
-        margin: 20px;
+        // margin: 20px;
         font-size: 18px;
 
+        // width: calc(100% / 5 - 60px);
+        img{
+            max-width: 100%;
+        }
         &.red{
             color: #ff4040;
         }
@@ -71,5 +75,56 @@
                 font-weight: bold;
             }
         }
+    }
+}
+
+.App-header{
+    justify-content: flex-start;
+}
+.list-n-time{
+
+    .timer-game{
+        .time{
+            margin: 0;
+        }
+    }
+}
+
+.type-summoner{
+    display: flex;
+    margin-top: 20px;
+    background-color: #3A4556;
+    .field-summoner-name{
+        padding: 20px;
+        input{
+            background-color: #2d3848;
+            border: 1px solid #2d3848;
+            color: rgba(255, 255, 255, 0.8);
+            width: 500px;
+            padding: 4px 10px;
+            font-size: 20px;
+            font-family: inherit;
+            &::placeholder{
+                color: rgba(255, 255, 255, 0.8);
+            }
+        }
+    }
+    input[type="submit"]{
+        background-color: #2aa3cc;
+        appearance: none;
+        width: 120px;
+        font-size: 19px;
+        color: #2A2A2A;
+        cursor: pointer;
+        padding: 6px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        border: none;
+        border-radius: 2px;
+        margin: 0;
+        padding: 5px;
+        font-family: inherit;
+        text-transform: uppercase;
+        font-weight: bold;
     }
 }

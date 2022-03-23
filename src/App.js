@@ -1,101 +1,122 @@
-import logo from './logo.svg';
-import './App.css';
-import './assets/css/style.css'
-
+import logo from "./logo.svg";
+import "./App.css";
+import "./assets/css/style.css";
 
 import { Draggable } from "react-drag-reorder";
 
-
-
 import React, { useEffect, useState } from "react";
-import { getInfoSummoner, getCurrentGame } from './api/riot';
+import { getInfoSummoner, getCurrentGame } from "./api/riot";
 
-import Player from './components/Player';
+import Player from "./components/Player";
+import TimerGame from "./components/TimerGame";
+
+import { useSelector, useDispatch } from 'react-redux'
 
 function App() {
+    const recapSpell = useSelector((state) => state.recapSpell)
+    const [name, setName] = useState("");
 
-  const [name, setName] = useState("");
+    const [game, setGame] = useState(null);
+    const [participants, setParticipants] = useState(null);
 
-  const [game, setGame] = useState(null);
-  const [participants, setParticipants] = useState(null);
+    const [bottes, setBottes] = useState();
 
-  const [bottes, setBottes] = useState();
+    const [timerGame, setTimerGame] = useState(null);
 
-  const [timerGame , setTimerGame] = useState(null);
+    useEffect(() => {
+        // if (game){
+        //   setInterval(() => {
+        //     calcTimeGame()
+        //   }, 1000);
+        // }
 
-  useEffect( () =>{
+    }, [game]);
 
-    if (game){
-      setInterval(() => {
-        calcTimeGame()
-      }, 1000);
-    }
+    const handleSubmit = async (evt) => {
+        evt.preventDefault();
 
-  }, [game]);
-  
-  const handleSubmit = async (evt) => {
-      evt.preventDefault();
+        const infoSumm = await getInfoSummoner(name);
 
-      const infoSumm = await getInfoSummoner(name)
+        console.log("inf", infoSumm);
+        const currentGame = await getCurrentGame(infoSumm.id);
 
-      console.log('inf', infoSumm);
-      const currentGame = await getCurrentGame(infoSumm.id)
-      
-      console.log('current game', currentGame)
+        console.log("current game", currentGame);
 
-      const CurrentPlayer = currentGame.participants.find( (e) => e.summonerName === name)
-      const saveArrayPlayers =  currentGame.participants.filter(player => player.teamId === 200)
+        const CurrentPlayer = currentGame.participants.find(
+            (e) => e.summonerName === name
+        );
+        const saveArrayPlayers = currentGame.participants.filter(
+            (player) => player.teamId === 200
+        );
 
-      setParticipants(saveArrayPlayers);
-      setGame(currentGame)
-  }
+        setParticipants(saveArrayPlayers);
+        setGame(currentGame);
+    };
 
-  const calcTimeGame = () =>{
-      const timerStartGame = game.gameStartTime;
+    // const calcTimeGame = () =>{
+    //     const timerStartGame = game.gameStartTime;
 
-      let now = new Date().getTime();
-      let distance =  now -timerStartGame;
-      
-      // Time calculations for days, hours, minutes and seconds
-      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      minutes = minutes < 10 ? "0"+ minutes : minutes;
-      seconds = seconds < 10 ? "0"+ seconds : seconds;
-      setTimerGame(minutes + ":" + seconds);
-  }
+    //     let now = new Date().getTime();
+    //     let distance =  now -timerStartGame;
 
-  const activeBotte = (bottes) =>{
-    setBottes(bottes)
-  }
+    //     // Time calculations for days, hours, minutes and seconds
+    //     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    //     minutes = minutes < 10 ? "0"+ minutes : minutes;
+    //     seconds = seconds < 10 ? "0"+ seconds : seconds;
+    //     setTimerGame(minutes + ":" + seconds);
+    // }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>Game start : { timerGame} </p>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Nom d'invocateur :
-            <input type="text" name="name"  value={name} onChange={e => setName(e.target.value)}/>
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <div>
-          <h2>Liste des joueurs :</h2>
-          <div className="container-summoner">
-            { participants &&
-                participants.map((player, index) => 
-                  <Player player={player} key={index} timerGame={timerGame} />
-                )
-            }
-          </div>
-         
-          <div>
-            Summoner recap : 
-          </div>
+    const activeBotte = (bottes) => {
+        setBottes(bottes);
+    };
+
+    const handler = value => console.log('val', value);
+    return (
+        <div className="App">
+            <header className="App-header">
+                {/* <p>Game start : { timerGame} </p> */}
+                <form onSubmit={handleSubmit} className="type-summoner">
+                    <label className="field-summoner-name">
+                        <input
+                            type="text"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Nom d'invocateur"
+                        />
+                    </label>
+                    <input type="submit" value="GO" />
+                </form>
+                {participants && (
+                    <div>
+                        <h2 className="list-n-time">Liste des joueurs : <TimerGame onChange={handler} /></h2>
+                        <div className="container-summoner">
+                            {participants.map((player, index) => (
+                                <Player
+                                    player={player}
+                                    key={index}
+                                    timerGame={timerGame}
+                                />
+                            ))}
+                        </div>
+
+        
+                        <div onClick={() =>{console.log('recccccccccccccc', Object.keys(recapSpell).length === 0 ? "oui" : "non"); }}>Summoner recap :
+                            <p style={{maxWidth: '800px'}}>{ Object.getOwnPropertyNames(recapSpell).length === 0 && 
+                                    recapSpell.map((recap, index)=>{
+                                        console.log('reeeeqqqqqqqq', recap);
+                                        return  + recap.spell + ' ' + recap.cd +' '
+                                    }) 
+
+                                 } 
+                             </p>
+                        </div>
+                    </div>
+                )}
+            </header>
         </div>
-      </header>
-    </div>
-  );
+    );
 }
 
 export default App;
