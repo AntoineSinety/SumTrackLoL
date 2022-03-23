@@ -102,14 +102,16 @@ function App() {
                         </div>
 
         
-                        <div onClick={() =>{console.log('recccccccccccccc', Object.keys(recapSpell).length === 0 ? "oui" : "non"); }}>Summoner recap :
-                            <p style={{maxWidth: '800px'}}>{ Object.getOwnPropertyNames(recapSpell).length === 0 && 
-                                    recapSpell.map((recap, index)=>{
-                                        console.log('reeeeqqqqqqqq', recap);
-                                        return  + recap.spell + ' ' + recap.cd +' '
+                        <div onClick={() =>{console.log("rreeee", recapSpell) }}>Summoner recap :
+                            <p style={{maxWidth: '800px'}}>{ recapSpell  && 
+                                    Object.keys(recapSpell).map((recap, index)=>{
+                                        console.log(recap)
+                                        console.log(index)
+                                        return 'oui'
+                                        return  recap.spell + ' ' + recap.cd +' '
                                     }) 
-
-                                 } 
+                                    
+                                }
                              </p>
                         </div>
                     </div>

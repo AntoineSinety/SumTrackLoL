@@ -64,7 +64,6 @@ function Spell(props) {
                 timeFormat = hours + ':'+ minutes;
                 setTimerSpell([time, timeFormat])
             }
-            
         }, 1000);
 
         let hours = Math.floor(time / 60);
