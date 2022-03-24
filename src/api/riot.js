@@ -35,7 +35,7 @@ export const getJsonSummonerPSells = async () =>{
 
 
 export const getChampName = (id) => {
-	return fetch('http://ddragon.leagueoflegends.com/cdn/' + version + '/data/fr_FR/champion.json')
+	return fetch('https://ddragon.leagueoflegends.com/cdn/' + version + '/data/fr_FR/champion.json')
 	.then(response => response.json())
 	.then(list => {
 		let championList = list.data;
