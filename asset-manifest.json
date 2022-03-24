@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/SumTrackLoL/static/css/main.2b630f11.css",
-    "main.js": "/SumTrackLoL/static/js/main.89e05412.js",
+    "main.js": "/SumTrackLoL/static/js/main.088f5397.js",
     "static/js/787.28cb0dcd.chunk.js": "/SumTrackLoL/static/js/787.28cb0dcd.chunk.js",
     "static/media/no_cosmic.webp": "/SumTrackLoL/static/media/no_cosmic.5a0804005e7e2f994655.webp",
     "static/media/logo.svg": "/SumTrackLoL/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
@@ -9,11 +9,11 @@
     "static/media/Bottes_de_Lucidi.webp": "/SumTrackLoL/static/media/Bottes_de_Lucidi.578c8f9e6d594438e201.webp",
     "index.html": "/SumTrackLoL/index.html",
     "main.2b630f11.css.map": "/SumTrackLoL/static/css/main.2b630f11.css.map",
-    "main.89e05412.js.map": "/SumTrackLoL/static/js/main.89e05412.js.map",
+    "main.088f5397.js.map": "/SumTrackLoL/static/js/main.088f5397.js.map",
     "787.28cb0dcd.chunk.js.map": "/SumTrackLoL/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2b630f11.css",
-    "static/js/main.89e05412.js"
+    "static/js/main.088f5397.js"
   ]
 }
