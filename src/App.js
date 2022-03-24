@@ -53,7 +53,7 @@ function App() {
             (e) => e.summonerName === name
         );
         const saveArrayPlayers = currentGame.participants.filter(
-            (player) => player.teamId === 200
+            (player) => player.teamId !== CurrentPlayer.teamId
         );
 
         setParticipants(saveArrayPlayers);
