@@ -12,8 +12,14 @@ import TimerGame from "./components/TimerGame";
 
 import { useSelector, useDispatch } from 'react-redux'
 
+import ReactGA from "react-ga4";
+const TRACKING_ID = "G-JW4M337BSB"; // YOUR_OWN_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
+
 function App() {
-    const recapSpell = useSelector((state) => state.recapSpell)
+    const recapSpell = useSelector((state) => state.recapSpell.value)
+    const stringRecapSpell = useSelector((state) => state.recapSpell.stringRecap)
+
     const [name, setName] = useState("");
 
     const [game, setGame] = useState(null);
@@ -22,6 +28,7 @@ function App() {
     const [bottes, setBottes] = useState();
 
     const [timerGame, setTimerGame] = useState(null);
+
 
     useEffect(() => {
         // if (game){
@@ -71,6 +78,7 @@ function App() {
         setBottes(bottes);
     };
 
+
     const handler = value => console.log('val', value);
     return (
         <div className="App">
@@ -102,16 +110,8 @@ function App() {
                         </div>
 
         
-                        <div onClick={() =>{console.log("rreeee", recapSpell) }}>Summoner recap :
-                            <p style={{maxWidth: '800px'}}>{ recapSpell  && 
-                                    Object.keys(recapSpell).map((recap, index)=>{
-                                        console.log(recap)
-                                        console.log(index)
-                                        return 'oui'
-                                        return  recap.spell + ' ' + recap.cd +' '
-                                    }) 
-                                    
-                                }
+                        <div>Summoner recap :
+                            <p className="copyBoard" onClick={() => navigator.clipboard.writeText(stringRecapSpell)}>{stringRecapSpell}
                              </p>
                         </div>
                     </div>

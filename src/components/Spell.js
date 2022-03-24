@@ -4,7 +4,7 @@ import { getChampName, getJsonSummonerPSells } from '../api/riot';
 
 
 import { useSelector, useDispatch } from 'react-redux'
-import { changeRecap } from '../redux/R-recapSpell'
+import { changeRecap, filterRecap, generateRecap } from '../redux/R-recapSpell'
 
 function Spell(props) {
 
@@ -55,6 +55,7 @@ function Spell(props) {
                 clearTimeout(decompteTimer);
                 setTimerSpell(getTimerSpell(props.spell[0].cooldown))
                 setCDBackTime("UP")
+                dispatch(filterRecap({name: "Viego", spell: "Smite"}))
             }else{
                 time-=1;
                 let hours = Math.floor(time / 60);
@@ -86,9 +87,14 @@ function Spell(props) {
 
         const nameChamp = getChampName(props.player.championId).then((res) => {
             dispatch(changeRecap({name: res, spell: name, cd: CDBack}))
+            dispatch(generateRecap());
         });
 
+
+
     }
+
+
 
 
   return (
